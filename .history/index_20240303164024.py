@@ -7,42 +7,31 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QPixmap
 
 class NewWindow(QMainWindow):
-    def __init__(self, text, parent =None):
+    def __init__(self, title):
         super().__init__()
+        self.setWindowTitle(title)
+        self.setGeometry(150, 150, 400, 300)
 
-        self.setWindowTitle("Histogram Alma Sayfası")
-        self.setGeometry(100, 100, 600, 400)
-        
-        self.info_label = QLabel("", self)  # Başlangıçta boş bir QLabel
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
+
+        self.info_label = QLabel(self)
         self.info_label.setAlignment(Qt.AlignCenter)
-        self.setCentralWidget(self.info_label)  # QLabel'ı pencerenin merkezi widget'ı olarak ayarlayın
+        layout = QVBoxLayout(central_widget)
+        layout.addWidget(self.info_label)
+        layout.addStretch()
 
     def set_info(self, text):
-        # QLabel'daki metni güncelleyin
-        self.info_label.setText(text)
+        full_text = f"{text}"
+        self.info_label.setText(full_text)
 
-        self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
+        # Set text style
+        font = QFont("Arial", 10)
+        self.info_label.setFont(font)
 
-        self.layout = QVBoxLayout()
-
-        self.image_label = QLabel("Görsel Buraya Gelecek")
-        self.layout.addWidget(self.image_label, 0, Qt.AlignCenter)
-
-        self.load_image_button = QPushButton("Görsel Yükle")
-        self.load_image_button.clicked.connect(self.load_image)
-        self.layout.addWidget(self.load_image_button, 0, Qt.AlignCenter)
-
-        self.central_widget.setLayout(self.layout)
-
-    def load_image(self):
-        file_dialog = QFileDialog()
-        image_path, _ = file_dialog.getOpenFileName(self, "Görsel Seç", "", "Resim Dosyaları (*.png *.jpg *.jpeg *.bmp *.gif)")
-
-        if image_path:
-            pixmap = QPixmap(image_path)
-            self.image_label.setPixmap(pixmap.scaledToWidth(400))  # Genişlik 400 piksel olacak şekilde ölçeklendir
-            self.image_label.setAlignment(Qt.AlignCenter)
+        # Set text color
+        text_color = QColor(54, 54, 54)
+        self.info_label.setStyleSheet(f"color: {text_color.name()};")
 
 
 class MainWindow(QMainWindow):
@@ -130,7 +119,7 @@ class MainWindow(QMainWindow):
 
     def open_new_window_odev1(self):
         self.new_window = NewWindow("Ödev 1 ")
-        text = "Histogam Alma"
+        text = "Ödev 1: Temel İşlevsellik Oluşturma içeriği"
         self.new_window.set_info(text)
         self.new_window.show()
 

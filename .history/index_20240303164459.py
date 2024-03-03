@@ -7,19 +7,11 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QPixmap
 
 class NewWindow(QMainWindow):
-    def __init__(self, text, parent =None):
+    def __init__(self, title):
         super().__init__()
 
-        self.setWindowTitle("Histogram Alma Sayfası")
+        self.setWindowTitle("Görsel Ekleme Sayfası")
         self.setGeometry(100, 100, 600, 400)
-        
-        self.info_label = QLabel("", self)  # Başlangıçta boş bir QLabel
-        self.info_label.setAlignment(Qt.AlignCenter)
-        self.setCentralWidget(self.info_label)  # QLabel'ı pencerenin merkezi widget'ı olarak ayarlayın
-
-    def set_info(self, text):
-        # QLabel'daki metni güncelleyin
-        self.info_label.setText(text)
 
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)

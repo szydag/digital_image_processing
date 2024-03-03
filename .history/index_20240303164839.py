@@ -131,7 +131,7 @@ class MainWindow(QMainWindow):
     def open_new_window_odev1(self):
         self.new_window = NewWindow("Ödev 1 ")
         text = "Histogam Alma"
-        self.new_window.set_info(text)
+        self.new_window.set_info()
         self.new_window.show()
 
 

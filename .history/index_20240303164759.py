@@ -7,7 +7,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QPixmap
 
 class NewWindow(QMainWindow):
-    def __init__(self, text, parent =None):
+    def __init__(self, title, parent =None):
         super().__init__()
 
         self.setWindowTitle("Histogram Alma Sayfası")
@@ -131,7 +131,7 @@ class MainWindow(QMainWindow):
     def open_new_window_odev1(self):
         self.new_window = NewWindow("Ödev 1 ")
         text = "Histogam Alma"
-        self.new_window.set_info(text)
+        self.new_window.set_info()
         self.new_window.show()
 
 
