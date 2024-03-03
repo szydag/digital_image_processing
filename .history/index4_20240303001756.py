@@ -89,6 +89,7 @@ class MainWindow(QMainWindow):
 
         # Ödev 1 butonu
         action_odev1 = QAction("Ödev 1: Temel İşlevsellik Oluşturma", self)
+        action_odev1.setStyleSheet("MainWindow {background-image: url('assets/images/background.png');}")
         action_odev1.triggered.connect(self.open_new_window_odev1)
         toolbar.addAction(action_odev1)
 

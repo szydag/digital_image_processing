@@ -20,8 +20,8 @@ class NewWindow(QMainWindow):
         layout.addWidget(self.info_label)
         layout.addStretch()
 
-    def set_info(self, text):
-        full_text = f"{text}"
+    def set_info(self, info_text, detail_text):
+        full_text = f"{info_text}\n{detail_text}"
         self.info_label.setText(full_text)
 
         # Set text style
@@ -94,8 +94,24 @@ class MainWindow(QMainWindow):
 
     def open_new_window_odev1(self):
         self.new_window = NewWindow("Ödev 1 ")
-        text = "Ödev 1: Temel İşlevsellik Oluşturma içeriği"
-        self.new_window.set_info(text)
+        info_text = "Ödev 1: Temel İşlevselliği Oluştur"
+        detail_text = "Bu ödevde kullanıcıdan görüntü alınacak ve histogramı oluşturulacaktır."
+        self.new_window.set_info(info_text,detail_text)
+        self.new_window.show()
+
+    def open_new_window_odev2(self):
+        self.new_window = NewWindow("Ödev 2 ")
+        info_text = " Ödev 2: Filtre Uygulama"
+        detail_text = "Ödevin detayları"
+        self.new_window.set_info(info_text,detail_text)
+        self.new_window.show()
+
+
+    def open_new_window_odev3(self):
+        self.new_window = NewWindow("Ödev 3 ")
+        info_text = " Ödev 3 ile ilgili bilgiler "
+        detail_text = "Ödevin detayları"
+        self.new_window.set_info(info_text, detail_text)
         self.new_window.show()
 
 
