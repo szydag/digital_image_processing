@@ -10,7 +10,7 @@ class NewWindow(QMainWindow):
     def __init__(self, text, parent =None):
         super().__init__()
 
-        self.setWindowTitle("İşlem Sayfası")
+        self.setWindowTitle("Resim Yükleme Sayfası")
         self.setGeometry(100, 100, 600, 400)
         
         self.info_label = QLabel("", self)

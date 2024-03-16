@@ -10,14 +10,15 @@ class NewWindow(QMainWindow):
     def __init__(self, text, parent =None):
         super().__init__()
 
-        self.setWindowTitle("İşlem Sayfası")
+        self.setWindowTitle("Resim Yükleme Sayfası")
         self.setGeometry(100, 100, 600, 400)
         
-        self.info_label = QLabel("", self)
+        self.info_label = QLabel("", self)  # Başlangıçta boş bir QLabel
         self.info_label.setAlignment(Qt.AlignCenter)
-        self.setCentralWidget(self.info_label)
+        self.setCentralWidget(self.info_label)  # QLabel'ı pencerenin merkezi widget'ı olarak ayarlayın
 
     def set_info(self, text):
+        # QLabel'daki metni güncelleyin
         self.info_label.setText(text)
 
         self.central_widget = QWidget()
@@ -42,10 +43,6 @@ class NewWindow(QMainWindow):
             pixmap = QPixmap(image_path)
             self.image_label.setPixmap(pixmap.scaledToWidth(400))  # Genişlik 400 piksel olacak şekilde ölçeklendir
             self.image_label.setAlignment(Qt.AlignCenter)
-            
-    def create_work1_page_content(self):
-        # Bu metodun içeriğini MainWindow sınıfından alıyoruz
-        pass
 
 
 class MainWindow(QMainWindow):
