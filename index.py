@@ -1,10 +1,12 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QFileDialog, QFrame, QAction, QVBoxLayout, QToolBar
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QFileDialog, QInputDialog, QFrame, QLineEdit
+from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 import numpy as np
-from PyQt5.QtWidgets import QLineEdit
+import math
+from PIL import Image, ImageQt
+from PyQt5.QtGui import QTransform
 
 
 class NewWindow(QMainWindow):
@@ -41,6 +43,20 @@ class NewWindow(QMainWindow):
         self.resize_image_button.clicked.connect(self.resize_loaded_image)
         self.layout.addWidget(self.resize_image_button)
         
+        self.zoom_factor = 1.0  # Başlangıçta zoom faktörü 1.0 olarak ayarlanır
+
+        self.zoom_in_button = QPushButton("Zoom In")
+        self.zoom_in_button.clicked.connect(self.zoom_in)
+        self.layout.addWidget(self.zoom_in_button)
+
+        self.zoom_out_button = QPushButton("Zoom Out")
+        self.zoom_out_button.clicked.connect(self.zoom_out)
+        self.layout.addWidget(self.zoom_out_button)
+        
+        self.rotate_button = QPushButton("Görüntüyü Döndür")
+        self.rotate_button.clicked.connect(self.rotate_image)
+        self.layout.addWidget(self.rotate_button)
+        
     def load_image(self):
         file_dialog = QFileDialog()
         self.image_path, _ = file_dialog.getOpenFileName(self, "Görsel Seç", "", "Resim Dosyaları (*.png *.jpg *.jpeg *.bmp *.gif)")
@@ -62,12 +78,77 @@ class NewWindow(QMainWindow):
             self.info_label.setText("Geçersiz oran. Lütfen geçerli bir sayı girin.")
             return
 
-        # Yüklenen resmi ve kullanıcı tarafından girilen oranı kullanarak yeniden boyutlandırma
         pixmap = QPixmap(self.image_path)
         new_width = int(pixmap.width() * ratio)
         scaled_pixmap = pixmap.scaledToWidth(new_width)
         self.image_label.setPixmap(scaled_pixmap)
         self.info_label.setText("Resim yeniden boyutlandırıldı.")
+        
+    def rotate_image(self):
+        angle, ok = QInputDialog.getDouble(self, "Döndürme Açısı", "Açıyı giriniz (derece):", decimals=2)
+        if ok:
+            self.rotate_angle = angle
+            self.update_image_rotate()
+            
+    def update_image_rotate(self):
+        if self.image_path is None:
+            self.info_label.setText("Önce bir resim yükleyin.")
+            return
+        
+        try:
+            pixmap = QPixmap(self.image_path)
+            
+            transform = QTransform()
+            transform.rotate(self.rotate_angle)
+            
+            rotated_pixmap = pixmap.transformed(transform, Qt.SmoothTransformation)
+            
+            self.image_label.setPixmap(rotated_pixmap)
+            
+            self.info_label.setText(f"Resim {self.rotate_angle} derece döndürüldü.")
+        except Exception as e:
+            self.info_label.setText(f"Hata oluştu: {str(e)}")
+            
+        
+    def zoom_in(self):
+        self.zoom_factor *= 1.1 
+        self.update_image()
+
+    def zoom_out(self):
+        self.zoom_factor /= 1.1  
+        self.update_image()
+        
+
+    def update_image(self):
+        if self.image_path is None:
+            self.info_label.setText("Önce bir resim yükleyin.")
+            return
+        
+        try:
+            pixmap = QPixmap(self.image_path)
+            new_width = int(pixmap.width() * self.zoom_factor)
+            new_height = int(pixmap.height() * self.zoom_factor)
+            scaled_pixmap = pixmap.scaled(new_width, new_height, Qt.KeepAspectRatio)
+            self.image_label.setPixmap(scaled_pixmap)
+            self.info_label.setText(f"Görüntü zoom in veya zoom out yapıldı. Yeni boyut: {new_width}x{new_height}")
+        except Exception as e:
+            self.info_label.setText(f"Hata oluştu: {str(e)}")
+            
+        if hasattr(self, 'rotate_angle'):
+            try:
+                # PIL Image kütüphanesini kullanarak döndürme işlemi
+                image = Image.open(self.image_path)
+                rotated_image = image.rotate(self.rotate_angle, resample=Image.BICUBIC, expand=True)
+                
+                # Döndürülen görüntüyü QPixmap nesnesine dönüştür
+                rotated_pixmap = QPixmap.fromImage(rotated_image.toqimage())
+
+                # QLabel üzerinde döndürülen görüntüyü göster
+                self.image_label.setPixmap(rotated_pixmap.scaledToWidth(400))
+                self.info_label.setText(f"Görüntü {self.rotate_angle} derece döndürüldü.")
+            except Exception as e:
+                self.info_label.setText(f"Döndürme sırasında bir hata oluştu: {str(e)}")
+
 
 
 class MainWindow(QMainWindow):
