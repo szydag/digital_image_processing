@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton
 from ui.home_page import create_home_page_content
 from ui.image_operations import NewWindow
-
+from ui.sigmoid import SigmoidFunctionsWindow
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -39,5 +39,5 @@ class MainWindow(QMainWindow):
         self.new_window.show()
 
     def open_new_window_odev2(self):
-        self.new_window = NewWindow("Sigmoid Fonksiyonları ")
+        self.new_window = SigmoidFunctionsWindow()
         self.new_window.show()
