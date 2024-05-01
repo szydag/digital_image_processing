@@ -1,13 +1,10 @@
-import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QFileDialog, QInputDialog, QFrame, QLineEdit
-from PyQt5.QtGui import QPixmap, QImage
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QFileDialog, QInputDialog, QFrame, QLineEdit
+from PyQt5.QtGui import QPixmap, QImage, QTransform
 from PyQt5.QtCore import Qt
 import numpy as np
 import math
 from PIL import Image, ImageQt
-from PyQt5.QtGui import QTransform
-
 
 class NewWindow(QMainWindow):
     def __init__(self, text="", parent=None):
@@ -148,81 +145,3 @@ class NewWindow(QMainWindow):
                 self.info_label.setText(f"Görüntü {self.rotate_angle} derece döndürüldü.")
             except Exception as e:
                 self.info_label.setText(f"Döndürme sırasında bir hata oluştu: {str(e)}")
-
-
-
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Dijital Görüntü İşleme")
-        self.setGeometry(100, 100, 800, 600)
-        self.set_background()
-
-        self.central_widget = QWidget(self)
-        self.setCentralWidget(self.central_widget)
-
-        self.layout = QVBoxLayout()
-        self.central_widget.setLayout(self.layout)
-
-        self.create_home_page_content()
-        self.create_menu_navigation()
-
-    def set_background(self):
-        self.setStyleSheet("MainWindow {background-image: url('assets/images/background.png');}")
-
-    def create_home_page_content(self):
-        frame = QFrame(self)
-        frame_size = (500, 400)
-        frame.setGeometry(
-            int((self.width() - frame_size[0]) / 2),
-            int((self.height() - frame_size[1]) / 2),
-            frame_size[0],
-            frame_size[1]
-        )
-        frame.setStyleSheet("background-color: #C6E0F1; border-radius: 15px;")
-        
-        layout = QVBoxLayout()
-        layout.setSpacing(-50)
-
-        label1 = QLabel("Dijital Görüntü İşleme")
-        label1.setAlignment(Qt.AlignCenter)
-        label1.setStyleSheet("QLabel { color: #022D4A; font-size: 40px; }")
-        layout.addWidget(label1)
-
-        label2 = QLabel("211229036")
-        label2.setAlignment(Qt.AlignCenter)
-        label2.setStyleSheet("QLabel { color: #022D4A; font-size: 25px; }")
-        layout.addWidget(label2)
-
-        label3 = QLabel("Şaziye Dağ")
-        label3.setAlignment(Qt.AlignCenter)
-        label3.setStyleSheet("QLabel { color: #022D4A; font-size: 30px; }")
-        layout.addWidget(label3)
-
-        frame.setLayout(layout)
-
-    def create_menu_navigation(self):
-        toolbar = self.addToolBar("Dijital Sinyal İşleme")
-
-        action_odev1 = QtWidgets.QAction("Ödev 1: Temel İşlevsellik Oluşturma", self)
-        action_odev1.triggered.connect(self.open_new_window_odev1)
-        toolbar.addAction(action_odev1)
-
-        action_odev2 = QtWidgets.QAction("Ödev 2: Temel Görüntü Operasyonları ve İnterpolasyon", self)
-        action_odev2.triggered.connect(self.open_new_window_odev2)
-        toolbar.addAction(action_odev2)
-
-    def open_new_window_odev1(self):
-        self.new_window = NewWindow("Ödev 1 ")
-        self.new_window.show()
-
-    def open_new_window_odev2(self):
-        self.new_window = NewWindow("Ödev 2 ")
-        self.new_window.show()
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
