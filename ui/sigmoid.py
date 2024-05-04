@@ -72,7 +72,7 @@ class SigmoidFunctionsWindow(QMainWindow):
         self.image_label.setPixmap(QPixmap("temp.jpg"))
 
     def sigmoid(self, x):
-        return 1 / (1 + np.exp(-x * 10))
+        return 1 / (1 + np.exp(-x))
 
     def custom_sigmoid(self, x):
         return 1 / (1 + np.exp(-((x - 0.5) * 20)))  # Örnek olarak daha dramatik bir efekt
