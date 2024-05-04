@@ -54,13 +54,15 @@ class SigmoidFunctionsWindow(QMainWindow):
             return
 
         img = np.array(self.image).astype(np.float32) / 255.0
-        
+        print("img",img)
         if mode == 'standard':
             result = self.sigmoid(img)
         elif mode == 'shifted':
-            result = self.sigmoid(img - 0.5) + 0.5
+            shift = -0.5
+            result = self.shifted_sigmoid(img, shift)
         elif mode == 'sloped':
-            result = self.sigmoid(img * 1.5)
+            slop = 1.5
+            result = self.sloped_sigmoid(img, slop)
         elif mode == 'custom':
             result = self.custom_sigmoid(img)
         else:
@@ -72,10 +74,16 @@ class SigmoidFunctionsWindow(QMainWindow):
         self.image_label.setPixmap(QPixmap("temp.jpg"))
 
     def sigmoid(self, x):
-        return 1 / (1 + np.exp(-x))
+        return 1 / (1 + (np.exp(-x)))
+    
+    def shifted_sigmoid(self, x, shift):
+        return 1/(1 + np.exp(-(x- shift)))
+    
+    def sloped_sigmoid(self, x, slop):
+        return 1/(1 + np.exp(-(x*slop)))
 
     def custom_sigmoid(self, x):
-        return 1 / (1 + np.exp(-((x - 0.5) * 20)))  # Örnek olarak daha dramatik bir efekt
+        return 1 / (1 + np.exp(-((x - 0.5) * 20))) 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
