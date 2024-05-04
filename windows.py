@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButt
 from ui.home_page import create_home_page_content
 from ui.image_operations import NewWindow
 from ui.sigmoid import SigmoidFunctionsWindow
+from ui.hough_transform import HoughTransformFunctionsWindow
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -30,14 +31,22 @@ class MainWindow(QMainWindow):
         action_odev1.triggered.connect(self.open_new_window_odev1)
         toolbar.addAction(action_odev1)
 
-        action_odev2 = QtWidgets.QAction("Sigmoid Fonksiyonları", self)
-        action_odev2.triggered.connect(self.open_new_window_odev2)
-        toolbar.addAction(action_odev2)
+        action_sigmoid = QtWidgets.QAction("Sigmoid Fonksiyonları", self)
+        action_sigmoid.triggered.connect(self.open_new_window_sigmoid)
+        toolbar.addAction(action_sigmoid)
+        
+        action_hough = QtWidgets.QAction("Hough Dönüşleri",self)
+        action_hough.triggered.connect(self.open_new_window_hough)
+        toolbar.addAction(action_hough)
 
     def open_new_window_odev1(self):
         self.new_window = NewWindow("Standart İşlemler")
         self.new_window.show()
 
-    def open_new_window_odev2(self):
+    def open_new_window_sigmoid(self):
         self.new_window = SigmoidFunctionsWindow()
+        self.new_window.show()
+        
+    def open_new_window_hough(self):
+        self.new_window = HoughTransformFunctionsWindow()
         self.new_window.show()
