@@ -5,6 +5,7 @@ from ui.image_operations import NewWindow
 from ui.sigmoid import SigmoidFunctionsWindow
 from ui.hough_transform import HoughTransformFunctionsWindow
 from ui.deblurring import DeblurringFunctionsWindow
+from ui.feature_extraction import FeatureExtraction
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -44,6 +45,10 @@ class MainWindow(QMainWindow):
         action_deblurring.triggered.connect(self.open_new_window_deblurring)
         toolbar.addAction(action_deblurring)
 
+        action_feature_extraction = QtWidgets.QAction("Özellik Çıkarma",self)
+        action_feature_extraction.triggered.connect(self.open_new_window_feature_extraction)
+        toolbar.addAction(action_feature_extraction)
+        
     def open_new_window_odev1(self):
         self.new_window = NewWindow("Standart İşlemler")
         self.new_window.show()
@@ -58,4 +63,8 @@ class MainWindow(QMainWindow):
         
     def open_new_window_deblurring(self):
         self.new_window = DeblurringFunctionsWindow()
+        self.new_window.show()
+        
+    def open_new_window_feature_extraction(self):
+        self.new_window = FeatureExtraction()
         self.new_window.show()
