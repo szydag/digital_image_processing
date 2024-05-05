@@ -4,6 +4,7 @@ from ui.home_page import create_home_page_content
 from ui.image_operations import NewWindow
 from ui.sigmoid import SigmoidFunctionsWindow
 from ui.hough_transform import HoughTransformFunctionsWindow
+from ui.deblurring import DeblurringFunctionsWindow
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -38,6 +39,10 @@ class MainWindow(QMainWindow):
         action_hough = QtWidgets.QAction("Hough Dönüşleri",self)
         action_hough.triggered.connect(self.open_new_window_hough)
         toolbar.addAction(action_hough)
+        
+        action_deblurring = QtWidgets.QAction("Debrurring Algoritması",self)
+        action_deblurring.triggered.connect(self.open_new_window_deblurring)
+        toolbar.addAction(action_deblurring)
 
     def open_new_window_odev1(self):
         self.new_window = NewWindow("Standart İşlemler")
@@ -49,4 +54,8 @@ class MainWindow(QMainWindow):
         
     def open_new_window_hough(self):
         self.new_window = HoughTransformFunctionsWindow()
+        self.new_window.show()
+        
+    def open_new_window_deblurring(self):
+        self.new_window = DeblurringFunctionsWindow()
         self.new_window.show()
